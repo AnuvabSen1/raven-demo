@@ -38,9 +38,13 @@ nav a:hover{color:var(--blue)}
 
 section{padding:100px 0}
 section.gray{background:var(--bg2)}
-.tag{font-size:.8rem;color:var(--blue);letter-spacing:4px;text-transform:uppercase;margin-bottom:10px}
-.sh{font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-1px;margin-bottom:16px;line-height:1.1}
-.sp{font-size:1.1rem;color:var(--dim);max-width:700px;margin-bottom:48px;line-height:1.75}
+.section-copy,.section-head{max-width:980px;margin-bottom:48px}
+.tag{font-size:.8rem;color:var(--blue);letter-spacing:4px;text-transform:uppercase;margin-bottom:12px}
+.sh{font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-1px;margin-bottom:18px;line-height:1.05;max-width:14ch;text-wrap:balance}
+.sp{font-size:1.1rem;color:var(--dim);max-width:920px;margin-bottom:0;line-height:1.72;text-wrap:pretty}
+#demo .section-copy{max-width:1080px}
+#demo .sh{font-size:clamp(2.7rem,4.6vw,4.5rem);letter-spacing:-2px;line-height:.98;max-width:12ch}
+#demo .sp{max-width:980px;font-size:clamp(1.06rem,1.25vw,1.3rem);line-height:1.68;color:#4b5563;text-wrap:pretty}
 
 .dash{overflow:hidden;border:1px solid var(--border2);box-shadow:0 16px 48px rgba(0,0,0,.08);transition:box-shadow .4s}
 .dash:hover{box-shadow:0 24px 64px rgba(0,0,0,.1)}
@@ -56,15 +60,19 @@ section.gray{background:var(--bg2)}
 .hc-img img{max-height:100%;max-width:100%;object-fit:contain}
 .hc-bd{padding:24px 28px}
 .hc-bd h3{font-size:1.3rem;margin-bottom:6px;font-weight:700}
-.hc-bd p{font-size:.95rem;color:var(--dim);line-height:1.75}
+.hc-bd p{font-size:.95rem;color:var(--dim);line-height:1.72;text-wrap:pretty}
 
-.specs{margin-top:44px;border:1px solid #d8d8d8;background:var(--white);box-shadow:0 10px 28px rgba(0,0,0,.04)}
-.spec-r{display:grid;grid-template-columns:180px 1fr;gap:36px;padding:22px 30px;border-bottom:1px solid #e5e5e5;transition:background .2s;align-items:center}
+.specs{margin-top:44px;border:1px solid #d9d9d9;background:rgba(255,255,255,.96);border-radius:22px;overflow:hidden;box-shadow:0 18px 46px rgba(0,0,0,.06)}
+.spec-r{display:grid;grid-template-columns:190px 1fr;gap:28px;padding:24px 30px;border-bottom:1px solid rgba(17,17,17,.08);transition:background .2s,transform .2s;align-items:center}
+.spec-r:nth-child(odd){background:rgba(255,255,255,.98)}
+.spec-r:nth-child(even){background:#fcfcfc}
 .spec-r:last-child{border-bottom:none}
-.spec-r:hover{background:#fafafa}
-.spec-r .k{width:auto;flex-shrink:0;font-size:.82rem;letter-spacing:2.6px;text-transform:uppercase;color:#848484;font-weight:700}
-.spec-r .v{flex:1;font-size:1rem;color:var(--ink2);line-height:1.5;text-transform:uppercase;letter-spacing:.2px}
+.spec-r:hover{background:#f7f8fa}
+.spec-r.key{background:linear-gradient(90deg,rgba(4,120,87,.08),rgba(4,120,87,.02) 45%,rgba(255,255,255,.98))}
+.spec-r .k{width:auto;flex-shrink:0;font-size:.78rem;letter-spacing:1.8px;text-transform:uppercase;color:#8a8a8a;font-weight:700}
+.spec-r .v{flex:1;font-size:1.02rem;color:#1f2937;line-height:1.6;text-transform:uppercase;letter-spacing:.02em}
 .spec-r .v.hi{color:var(--green);font-weight:700}
+.spec-r.key .k{color:#0f766e}
 
 .poster{overflow:hidden;border:1px solid var(--border2);box-shadow:0 16px 48px rgba(0,0,0,.08)}
 .poster img{width:100%;display:block}
@@ -78,7 +86,8 @@ footer .fi span{color:var(--blue);font-weight:700}
 .rv.v{opacity:1;transform:none}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
 
-@media(max-width:900px){.hw{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.hero-c{max-width:100%}.spec-r{grid-template-columns:1fr;gap:8px;padding:18px 22px}}
+@media(min-width:1024px){#demo .section-copy{padding-right:56px}#arch .section-head,#hw .section-head,#res .section-head{max-width:1020px}#arch .sp,#hw .sp,#res .sp{max-width:980px}#arch .sh,#hw .sh,#res .sh{max-width:13ch}}
+@media(max-width:900px){.hw{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.hero-c{max-width:100%}.section-copy,#demo .section-copy{max-width:100%;padding-right:0}.sp,#demo .sp{max-width:100%}.spec-r{grid-template-columns:1fr;gap:10px;padding:20px 22px}.spec-r .k{font-size:.72rem;letter-spacing:1.4px}}
 @media(max-width:600px){.w,.inner{padding:0 20px}.arch-wrap{margin:0 -20px}}
 </style>
 </head>
@@ -103,23 +112,29 @@ footer .fi span{color:var(--blue);font-weight:700}
 </div></section>
 
 <section id="demo" class="gray"><div class="w">
-  <div class="tag rv">01 — Live Demo</div>
-  <div class="sh rv d1">Dashboard</div>
-  <div class="sp rv d2">Attendees walk in front of the radar and see themselves detected in real time. Camera feed, BEV detection output, and adaptive energy plot all running on edge hardware.</div>
+  <div class="section-copy">
+    <div class="tag rv">01 — Live Demo</div>
+    <div class="sh rv d1">Dashboard</div>
+    <div class="sp rv d2">Attendees walk in front of the radar and see themselves detected in real time. Camera feed, BEV detection output, and adaptive energy plot all running on edge hardware.</div>
+  </div>
   <div class="dash rv d3"><img src="assets/demo_dashboard_final.png" alt="RAVEN Demo"></div>
 </div></section>
 
 <section id="arch"><div class="w">
-  <div class="tag rv">02 — Architecture</div>
-  <div class="sh rv d1">Physics-Inspired Streaming</div>
-  <div class="sp rv d2">Per-receiver SSMs, cross-antenna attention beamformer, and chirp-wise SSM backbone with anytime early-exit inference.</div>
+  <div class="section-head">
+    <div class="tag rv">02 — Architecture</div>
+    <div class="sh rv d1">Physics-Inspired Streaming</div>
+    <div class="sp rv d2">Per-receiver SSMs, cross-antenna attention beamformer, and chirp-wise SSM backbone with anytime early-exit inference.</div>
+  </div>
   <div class="arch-wrap rv d3"><img src="assets/raven_arch_animated.gif" alt="RAVEN Architecture"></div>
 </div></section>
 
 <section id="hw" class="gray"><div class="w">
-  <div class="tag rv">03 — Hardware</div>
-  <div class="sh rv d1">Edge Deployment</div>
-  <div class="sp rv d2">Based on availability, the demo runs on a LoCoBot mobile robot or a laptop, streaming raw ADC data from a TI IWR1443BOOST radar sensor.</div>
+  <div class="section-head">
+    <div class="tag rv">03 — Hardware</div>
+    <div class="sh rv d1">Edge Deployment</div>
+    <div class="sp rv d2">Based on availability, the demo runs on a LoCoBot mobile robot or a laptop, streaming raw ADC data from a TI IWR1443BOOST radar sensor.</div>
+  </div>
   <div class="hw">
     <div class="hc rv"><div class="hc-img"><img src="assets/locobot.jpg" alt="LoCoBot"></div><div class="hc-bd"><h3>LoCoBot WX250s</h3><p>Mobile robot with radar, 2D LiDAR, RGB-D and stereo cameras, Intel i3 edge processor.</p></div></div>
     <div class="hc rv d1"><div class="hc-img"><img src="assets/radar_board.png" alt="TI IWR1443BOOST"></div><div class="hc-bd"><h3>TI IWR1443BOOST</h3><p>76–81 GHz FMCW radar-on-chip. 3TX, 4RX, 12 virtual elements in TDM-MIMO. Up to 4 GHz chirp bandwidth.</p></div></div>
@@ -129,15 +144,17 @@ footer .fi span{color:var(--blue);font-weight:700}
     <div class="spec-r"><div class="k">Data Capture</div><div class="v">DCA1000EVM, 1 Gbps Ethernet real-time ADC streaming</div></div>
     <div class="spec-r"><div class="k">Camera</div><div class="v">Co-registered RGB, visual reference only</div></div>
     <div class="spec-r"><div class="k">Compute</div><div class="v">Intel i3 edge processor (LoCoBot) · NVIDIA RTX-class laptop GPU</div></div>
-    <div class="spec-r"><div class="k">Model</div><div class="v hi">0.35M params · ≤1.02 GMACs full-frame · ≤0.27 GMACs sub-frame</div></div>
-    <div class="spec-r"><div class="k">Speed</div><div class="v hi">≥50 FPS with sub-frame latency via adaptive early exit</div></div>
+    <div class="spec-r key"><div class="k">Model</div><div class="v hi">0.35M params · ≤1.02 GMACs full-frame · ≤0.27 GMACs sub-frame</div></div>
+    <div class="spec-r key"><div class="k">Speed</div><div class="v hi">≥50 FPS with sub-frame latency via adaptive early exit</div></div>
   </div>
 </div></section>
 
 <section id="res"><div class="w">
-  <div class="tag rv">04 — Results</div>
-  <div class="sh rv d1">Performance at a Glance</div>
-  <div class="sp rv d2">State-of-the-art detection and segmentation accuracy at orders of magnitude less compute than prior radar perception models.</div>
+  <div class="section-head">
+    <div class="tag rv">04 — Results</div>
+    <div class="sh rv d1">Performance at a Glance</div>
+    <div class="sp rv d2">State-of-the-art detection and segmentation accuracy at orders of magnitude less compute than prior radar perception models.</div>
+  </div>
   <div class="poster rv d3"><img src="assets/poster.png" alt="Results"></div>
 </div></section>
 
