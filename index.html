@@ -86,16 +86,21 @@ footer .fi span{color:var(--blue);font-weight:700}
 .rv.v{opacity:1;transform:none}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
 
+.nav-toggle{display:none;border:1px solid var(--border);background:rgba(255,255,255,.92);color:var(--ink);padding:8px 10px;line-height:1;border-radius:999px;font-size:1rem;cursor:pointer}
+.nav-toggle span{display:block;width:18px;height:2px;background:currentColor;margin:3px 0;transition:transform .25s,opacity .25s}
+
 @media(min-width:1024px){#demo .section-copy{max-width:none;padding-right:56px}#arch .section-head,#hw .section-head,#res .section-head{max-width:none}#demo .sp,#arch .sp,#hw .sp,#res .sp{max-width:980px}#demo .sh,#arch .sh,#hw .sh,#res .sh{max-width:none;white-space:nowrap;text-wrap:nowrap}#demo .sh{font-size:clamp(2.9rem,4.3vw,4.5rem)}#arch .sh{font-size:clamp(2rem,3.15vw,3.1rem)}#hw .sh,#res .sh{font-size:clamp(2rem,3vw,3rem)}}
-@media(max-width:900px){.hw{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.hero-c{max-width:100%}.section-copy,#demo .section-copy{max-width:100%;padding-right:0}.sp,#demo .sp{max-width:100%}.spec-r{grid-template-columns:1fr;gap:10px;padding:20px 22px}.spec-r .k{font-size:.72rem;letter-spacing:1.4px}}
-@media(max-width:600px){.w,.inner{padding:0 20px}.arch-wrap{margin:0 -20px}}
+@media(max-width:900px){.hw{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}.hero-c{max-width:100%}.section-copy,#demo .section-copy,.section-head{max-width:100%;padding-right:0}.tag,.sh,.sp,#demo .sp{display:block;width:100%;max-width:100%;text-align:left}.tag{margin-bottom:10px}.sh{line-height:1.08;margin-bottom:14px;text-wrap:wrap;white-space:normal}.sp,#demo .sp{line-height:1.65}.spec-r{grid-template-columns:1fr;gap:10px;padding:20px 22px}.spec-r .k{font-size:.72rem;letter-spacing:1.4px}}
+@media(max-width:768px){nav .inner{height:60px;padding:0 20px;position:relative}.logo{font-size:1.05rem;letter-spacing:3px}.nav-toggle{display:inline-flex;align-items:center;justify-content:center}.nav-toggle[aria-expanded='true'] span:nth-child(1){transform:translateY(5px) rotate(45deg)}.nav-toggle[aria-expanded='true'] span:nth-child(2){opacity:0}.nav-toggle[aria-expanded='true'] span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}nav ul{position:absolute;top:calc(100% + 10px);left:20px;right:20px;display:flex;flex-direction:column;gap:0;padding:10px 0;border:1px solid var(--border);background:rgba(255,255,255,.98);box-shadow:0 18px 48px rgba(0,0,0,.12);opacity:0;pointer-events:none;transform:translateY(-10px);transition:opacity .25s,transform .25s;border-radius:18px}nav.open ul{opacity:1;pointer-events:auto;transform:translateY(0)}nav ul li{width:100%}nav a{display:block;padding:12px 18px;font-size:.78rem;letter-spacing:1.8px}section{padding:80px 0}.hero{padding:108px 0 72px}.hero h1{letter-spacing:-2px}.hero .sub{font-size:clamp(1.2rem,6vw,1.7rem)}.hero-p{font-size:1rem;margin-bottom:40px}.section-copy,.section-head{margin-bottom:32px}.sh,#demo .sh,#arch .sh,#hw .sh,#res .sh{font-size:clamp(2.25rem,8.8vw,3.35rem);max-width:100%;white-space:normal;text-wrap:balance}.sp,#demo .sp{font-size:1rem}.hc-img{height:220px}.hc-bd{padding:20px 22px}}
+@media(max-width:600px){.w,.inner{padding:0 20px}.arch-wrap{margin:0 -20px}.stats-row{grid-template-columns:1fr}.stat-cell{border-right:none;border-bottom:1px solid var(--border)}.stat-cell:last-child{border-bottom:none}.specs{margin-top:32px;border-radius:18px}.spec-r{padding:18px 18px}.spec-r .v{font-size:.96rem}.tag{font-size:.74rem;letter-spacing:2.8px}.sh,#demo .sh,#arch .sh,#hw .sh,#res .sh{font-size:clamp(2.05rem,9vw,2.7rem);line-height:1.03}.sp,#demo .sp{font-size:.98rem;line-height:1.62}}
 </style>
 </head>
 <body>
 
 <nav id="nav"><div class="inner">
   <div class="logo">Raven</div>
-  <ul><li><a href="#demo">DEMO</a></li><li><a href="#arch">ARCHITECTURE</a></li><li><a href="#hw">HARDWARE</a></li><li><a href="#res">RESULTS</a></li></ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu"><span></span><span></span><span></span></button>
+  <ul id="navMenu"><li><a href="#demo">DEMO</a></li><li><a href="#arch">ARCHITECTURE</a></li><li><a href="#hw">HARDWARE</a></li><li><a href="#res">RESULTS</a></li></ul>
 </div></nav>
 
 <section class="hero"><div class="w hero-c">
@@ -164,12 +169,24 @@ footer .fi span{color:var(--blue);font-weight:700}
 </div></footer>
 
 <script>
-window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>50)});
+const nav=document.getElementById('nav');
+const navToggle=document.getElementById('navToggle');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>50)});
+if(navToggle){
+  navToggle.addEventListener('click',()=>{
+    const expanded=navToggle.getAttribute('aria-expanded')==='true';
+    navToggle.setAttribute('aria-expanded',String(!expanded));
+    nav.classList.toggle('open',!expanded);
+  });
+}
+const closeNav=()=>{if(!navToggle)return;nav.classList.remove('open');navToggle.setAttribute('aria-expanded','false')};
+document.addEventListener('click',e=>{if(window.innerWidth>768)return;if(nav.contains(e.target))return;closeNav()});
+window.addEventListener('resize',()=>{if(window.innerWidth>768)closeNav()});
 const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v')})},{threshold:.08,rootMargin:'0px 0px -50px 0px'});
 document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
 const co=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting||e.target.dataset.done)return;e.target.dataset.done='1';const tgt=parseFloat(e.target.dataset.t),p=e.target.dataset.p||'',s=e.target.dataset.s||'',fl=tgt<1,dur=1200,st=performance.now();(function tick(n){const pr=Math.min((n-st)/dur,1),ez=1-Math.pow(1-pr,4),v=tgt*ez;e.target.textContent=p+(fl?v.toFixed(2):Math.round(v))+s;if(pr<1)requestAnimationFrame(tick)})(st)})},{threshold:.5});
 document.querySelectorAll('.stat-v').forEach(el=>co.observe(el));
-document.querySelectorAll('nav a').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'})})});
+document.querySelectorAll('nav a').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});closeNav()})});
 </script>
 </body>
 </html>
