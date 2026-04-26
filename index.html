@@ -272,46 +272,54 @@
     .hw-grid { grid-template-columns: 1fr; }
   }
 
-  /* ============ SPECS TABLE ============ */
+  /* ============ SPECS ============ */
   .specs {
     margin: 28px 0 0;
-    border: 1px solid var(--rule);
-    border-radius: 6px;
-    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .spec-card {
     background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 22px 22px 24px;
+    transition: box-shadow .25s, transform .25s, border-color .25s;
+    position: relative;
   }
-  .spec-row {
-    display: flex;
-    padding: 14px 22px;
-    border-bottom: 1px solid var(--rule);
-    align-items: center;
-    gap: 18px;
-    transition: background .15s;
+  .spec-card:hover {
+    border-color: var(--blue);
+    box-shadow: 0 6px 24px rgba(50, 115, 220, 0.08);
+    transform: translateY(-2px);
   }
-  .spec-row:last-child { border-bottom: none; }
-  .spec-row:hover { background: rgba(50, 115, 220, 0.03); }
-  .spec-row .k {
-    flex: 0 0 150px;
-    font-size: 13px;
+  .spec-card .k {
+    display: inline-block;
+    font-size: 11px;
     font-family: 'Nunito', sans-serif;
-    font-weight: 700;
-    letter-spacing: 0.05em;
+    font-weight: 800;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--blue);
+    background: rgba(50, 115, 220, 0.08);
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
   }
-  .spec-row .v {
-    flex: 1;
-    font-size: 15px;
+  .spec-card .v {
+    font-size: 14.5px;
     color: var(--body);
-    line-height: 1.5;
+    line-height: 1.55;
+    font-weight: 500;
   }
-  .spec-row .v.hi {
-    color: var(--red);
-    font-weight: 700;
+  .spec-card .v strong {
+    color: var(--navy);
+    font-weight: 800;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 4px;
   }
-  @media (max-width: 720px) {
-    .spec-row { flex-direction: column; gap: 4px; align-items: flex-start; padding: 14px 18px; }
-    .spec-row .k { flex: none; }
+  @media (max-width: 760px) {
+    .specs { grid-template-columns: 1fr; gap: 12px; }
   }
 
   /* ============ FOOTER ============ */
@@ -366,13 +374,6 @@
 
     <div class="affiliations">
       <sup>1</sup>Georgia Institute of Technology
-    </div>
-
-    <div class="links">
-      <a class="link-btn" href="#" aria-label="Paper PDF">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
-        Paper
-      </a>
     </div>
   </header>
 
@@ -479,29 +480,26 @@
     </div>
 
     <div class="specs">
-      <div class="spec-row">
+      <div class="spec-card">
         <div class="k">Radar</div>
-        <div class="v">TI IWR1843BOOST · 76–81&nbsp;GHz · 3&nbsp;TX / 4&nbsp;RX TDM-MIMO · 12 virtual antennas</div>
+        <div class="v">
+          <strong>TI IWR1843BOOST</strong>
+          76–81&nbsp;GHz · 3&nbsp;TX / 4&nbsp;RX TDM-MIMO · 12 virtual antennas
+        </div>
       </div>
-      <div class="spec-row">
+      <div class="spec-card">
         <div class="k">Data Capture</div>
-        <div class="v">DCA1000EVM · 1&nbsp;Gbps Ethernet real-time ADC streaming</div>
+        <div class="v">
+          <strong>DCA1000EVM</strong>
+          1&nbsp;Gbps Ethernet real-time ADC streaming
+        </div>
       </div>
-      <div class="spec-row">
+      <div class="spec-card">
         <div class="k">Camera</div>
-        <div class="v">Co-registered RGB · visual reference only (not used by the model)</div>
-      </div>
-      <div class="spec-row">
-        <div class="k">Compute</div>
-        <div class="v">Intel i3 edge processor (LoCoBot) · NVIDIA RTX-class laptop GPU</div>
-      </div>
-      <div class="spec-row">
-        <div class="k">Model</div>
-        <div class="v hi">0.35&nbsp;M params · ≤1.02 GMACs full-frame · ≤0.27 GMACs sub-frame</div>
-      </div>
-      <div class="spec-row">
-        <div class="k">Speed</div>
-        <div class="v hi">≥50 FPS with sub-frame latency via adaptive early exit</div>
+        <div class="v">
+          <strong>Co-registered RGB</strong>
+          Visual reference only — not used by the model
+        </div>
       </div>
     </div>
   </section>
